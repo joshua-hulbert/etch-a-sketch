@@ -1,27 +1,26 @@
 const DEFAULT_SIZE = 16;
+const GRID_SIZE = 640;
 
 const container = document.querySelector('#container');
 
-// function createGridSquare(size, row, col) {
-//     const square = document.createElement('div');
-//     square.classList.add('square-div');
-//     square.style.backgroundColor = 'blue';
-//     square.style.width = size;
-//     square.style.height = size;
-//     square.style.gridRow = row;
-//     square.style.gridColumn = col;
-//     return square;
-// }
+const sizeButton = document.querySelector('.size-button');
+sizeButton.addEventListener('click', resizeAndClearGrid);
 
-// function createGrid() {
-//     for (let row = 0; row < DEFAULT_SIZE; row++) {
-//         for (let col = 0; col < DEFAULT_SIZE; col++) {
-//             container.appendChild(createGridSquare(container.clientWidth / DEFAULT_SIZE, row, col));
-//         }
-//     }
-// }
+function makeSquareBlue() {
+    this.style.backgroundColor = 'blue';
+}
 
-// createGrid();
+function resizeAndClearGrid() {
+    let gridSizeSquares = prompt('Enter grid size (in squares, maximum 100)');
+
+    let square = container.lastElementChild;
+    while (square) {
+        container.removeChild(square);
+        square = container.lastElementChild;
+    }
+
+    createGrid(gridSizeSquares);
+}
 
 function createGridSquare(size, col, row) {
     const square = document.createElement('div');
@@ -33,10 +32,12 @@ function createGridSquare(size, col, row) {
     return square;
 }
 
-function createGrid() {
-    for (let row = 1; row <= DEFAULT_SIZE; row++) {
-        for (let col = 1; col <= DEFAULT_SIZE; col++) {
-            container.appendChild(createGridSquare(container.clientWidth / DEFAULT_SIZE, col, row));
+function createGrid(size=DEFAULT_SIZE) {
+    for (let row = 1; row <= size; row++) {
+        for (let col = 1; col <= size; col++) {
+            square = createGridSquare(GRID_SIZE / size, col, row);
+            square.addEventListener('mouseenter', makeSquareBlue);
+            container.appendChild(square);
         }
     }
 }
